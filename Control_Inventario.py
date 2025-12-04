@@ -1,6 +1,6 @@
 # Sistema de Control de Inventario
 # Empresa Ricoh del Perú
-# Proyecto final - Daniel, Adrián, Gerson, Javier
+# Proyecto final - Daniel,Adrián,Gerson,Javier
  
 # Listas principales del inventario
 lista_codigos = []
@@ -10,6 +10,34 @@ lista_cantidades = []
 lista_precio_compra = []
 lista_precio_venta = []
 lista_stock_minimo = []
+ 
+# Moneda global
+moneda_global = None
+simbolo_moneda = ""
+ 
+def configurar_moneda():
+    """Configura la moneda global del sistema: Soles o Dólares."""
+    global moneda_global, simbolo_moneda
+ 
+    while True:
+        print("Configuración inicial de moneda.")
+        print("Seleccione la moneda para todo el inventario:")
+        print("S = Soles")
+        print("D = Dólares")
+        moneda = input("Ingrese S o D: ").strip().upper()
+ 
+        if moneda == "S":
+            moneda_global = "S"
+            simbolo_moneda = "S/"
+            print("Moneda configurada: Soles (S/)")
+            break
+        elif moneda == "D":
+            moneda_global = "D"
+            simbolo_moneda = "$"
+            print("Moneda configurada: Dólares ($)")
+            break
+        else:
+            print("⚠ Opción inválida. Por favor ingrese S o D.\n")
  
 def registrar_productos():
     """Proceso 1: Registro inicial de productos con validación de códigos repetidos."""
@@ -30,6 +58,7 @@ def registrar_productos():
         nombre = input("Nombre del producto: ").strip()
         categoria = input("Categoría: ").strip()
  
+        print(f"Todos los precios se ingresan en: {simbolo_moneda}")
         try:
             cantidad_inicial = int(input("Cantidad inicial: "))
             precio_compra = float(input("Precio de compra: "))
@@ -132,7 +161,7 @@ def calcular_valor_total():
         valor_producto = lista_precio_compra[i] * lista_cantidades[i]
         valor_total += valor_producto
  
-    print(f"💰 Valor económico total del inventario: {valor_total:.2f}")
+    print(f"💰 Valor económico total del inventario: {simbolo_moneda}{valor_total:.2f}")
  
 def generar_reporte_general():
     """Proceso 5: Generación de un reporte general del inventario."""
@@ -147,8 +176,8 @@ def generar_reporte_general():
         print(f"Nombre: {lista_nombres[i]}")
         print(f"Categoría: {lista_categorias[i]}")
         print(f"Cantidad actual: {lista_cantidades[i]}")
-        print(f"Precio de compra: {lista_precio_compra[i]:.2f}")
-        print(f"Precio de venta: {lista_precio_venta[i]:.2f}")
+        print(f"Precio de compra: {simbolo_moneda}{lista_precio_compra[i]:.2f}")
+        print(f"Precio de venta: {simbolo_moneda}{lista_precio_venta[i]:.2f}")
         if lista_cantidades[i] <= lista_stock_minimo[i]:
             print(">> ⚠ Advertencia: Producto en stock crítico.")
     print("---------------------------------------")
@@ -165,7 +194,7 @@ def menu_principal():
         print("5. Generar reporte general")
         print("6. Salir del sistema")
  
-        opcion = input("Seleccione una opción: ").strip()
+        opcion = input("Seleccione una opción: ").strip()  # se maneja como TEXTO
  
         if opcion == "1":
             registrar_productos()
@@ -187,4 +216,5 @@ def menu_principal():
  
 if __name__ == "__main__":
     print("=== Sistema de Control de Inventario - Ricoh del Perú ===")
+    configurar_moneda()
     menu_principal()
