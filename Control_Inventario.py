@@ -1,6 +1,6 @@
 # Sistema de Control de Inventario
 # Empresa Ricoh del Perú
-# Proyecto final - Daniel,Adrián,Gerson,Javier
+# Proyecto final - Daniel, Adrián, Gerson, Javier
  
 # Listas principales del inventario
 lista_codigos = []
@@ -121,6 +121,10 @@ def registrar_movimiento():
         if cantidad_mov <= lista_cantidades[pos]:
             lista_cantidades[pos] -= cantidad_mov
             print("Salida registrada correctamente.")
+ 
+            # Alerta de stock crítico después de la salida
+            if lista_cantidades[pos] <= lista_stock_minimo[pos]:
+                print(">> ⚠ Atención: el producto ha quedado en nivel de stock crítico.")
         else:
             print("⚠ Movimiento inválido: stock insuficiente.")
     else:
